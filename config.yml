@@ -1,0 +1,16 @@
+---
+exclude:
+  - "70668"
+include:
+  - "77715":
+      scene:
+        absolute: 1
+        season: 2024
+        episode: 1
+      tvdb:
+        absolute: 1
+        season: 53
+        episode: 1
+      range: 300
+      names:
+        - Emmerdale: 53

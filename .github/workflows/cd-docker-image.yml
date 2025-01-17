@@ -1,0 +1,27 @@
+name: Create and publish docker image
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+    paths-ignore:
+      - '.configs/**'
+  workflow_dispatch:
+
+jobs:
+  build-and-push-image:
+    name: Build & push image
+    uses: The-Fast-and-the-Furious/gh-workflows/.github/workflows/cd-docker-image.yml@main
+    with:
+      dockerfile: ./Dockerfile.prod
+      imagename: ${{ github.repository }}
+    secrets: inherit
+    permissions:
+      contents: read
+      packages: write
