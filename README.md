@@ -12,10 +12,7 @@ You will need a Reverse Proxy (I used Apache 2) to map this to the url "thexem.i
 You will also need a certificate for TLS - I created a self-signed one for thexem.info, associated it to my reverse proxy and then trusted the cert locally on the server running Sonarr.
 
 ## Directories
-This directory has been created in the image to be used for configuration and persistent storage (xem-mapping.json: custom mapping).
-```
-/thexem/config
-```
+There is no separate config directory or volume. `config.yml` in the repository root is copied next to the bundle (`/usr/app/config.yml` in the image) at build time and read on every request, so edit it before building the image.
 
 ### config.yml
 This file contains the custom mapping that will be merged with the original response  
@@ -40,12 +37,13 @@ include:
 ```
 
 ### Example Apache Reverse Proxy
+The app listens on port 8111 (`PORT` overrides it); `docker-compose.yml` publishes the same port.
 ```xml
 <VirtualHost _default_:443>
     ServerName thexem.info
     ServerAdmin admin@localhost
-    ProxyPass / http://127.0.0.1:8080/ nocanon
-    ProxyPassReverse / http://127.0.0.1:8080/
+    ProxyPass / http://127.0.0.1:8111/ nocanon
+    ProxyPassReverse / http://127.0.0.1:8111/
     ErrorLog ${APACHE_LOG_DIR}/thexem.info.log
     CustomLog /dev/null combined
     SSLEngine on
