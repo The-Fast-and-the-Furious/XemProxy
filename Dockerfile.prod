@@ -1,6 +1,6 @@
 ARG ARCH=amd64
 ARG NODE_VERSION=18
-ARG OS=buster-slim
+ARG OS=bookworm-slim
 
 # Docker file to create a build image for NodeJS application.
 FROM ${ARCH}/node:${NODE_VERSION}-${OS} as Build
